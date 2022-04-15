@@ -42,11 +42,8 @@ class PostController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request) //aggiunta di un nuovo post, e controllo degli attributi inseriti (soprattutto la category_id)
+    public function store(Request $request) 
     {
-        //controllo i parametri passati dall'interno della form di creazione post, negli attributi "name" (views/admin/post/create.blade.php),
-        //e verifico che rispettino i seguenti parametri.
-        //In particolare, l'attributo "category_id" deve esistere all'interno della colonna "id" di "categories"
         $request->validate(
             [
                 "title" => "required|min:5",
@@ -61,19 +58,14 @@ class PostController extends Controller
         $slug = Str::slug($data["title"]);
         $counter = 1;
 
-        //se trovo un doppione dello slug, modifico $slug concantenando il contatore, che sarò incrementato in modo da essere sempre univoco
         while(Post::where("slug", $slug)->first()){
             $slug = Str::slug($data["title"]) . "-" . $counter;
             $counter++;
         }
-
         $data["slug"] = $slug;
         $post = new Post();
-
         $post->fill($data);
         $post->save();
-
-        //sincronizzo i tag di quel post, con i tag che hanno gli ID indicati nel campo "tags" di $data
         $post->tags()->sync($data["tags"]);
 
         return redirect()->route("admin.posts.index");
@@ -85,7 +77,7 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Post $post) //Post con l'id specifico come parametro
+    public function show(Post $post) 
     {
         return view("admin.post.show", compact("post"));
     }
@@ -96,12 +88,10 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Post $post) //Post con l'id specifico come parametro
+    public function edit(Post $post)
     {
         $categories = Category::all();
-
         $tags = Tag::all();
-
         return view("admin.post.edit", compact("categories", "post", "tags"));
     }
 
@@ -122,11 +112,8 @@ class PostController extends Controller
                 "tags" => "nullable|exists:tags,id"
             ]
         );
-
         $data = $request->all();
-
         $slug = Str::slug($data["title"]);
-
         if ($post->slug != $slug) {
             $counter = 1;
             while (Post::where('slug', $slug)->first()) {
@@ -135,16 +122,10 @@ class PostController extends Controller
             }
             $data['slug'] = $slug;
         }
-
         $post->update($data);
         $post->save();
-
-        //sincronizzo i tag di quel post, con i tag che hanno gli ID indicati nel campo "tags" di $data
         $post->tags()->sync($data["tags"]);
-
         return redirect()->route("admin.posts.index");
-
-
     }
 
     /**

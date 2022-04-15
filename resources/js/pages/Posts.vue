@@ -49,7 +49,6 @@
                 });
             }
         },
-
         created(){
             this.changePagePosts(this.currentPage);
         }
@@ -57,5 +56,4 @@
 </script>
 
 <style>
-
 </style>

@@ -16,28 +16,15 @@ class PostController extends Controller
      */
     public function index()
     {
-        //ricavo tutte le informazioni del post, con category_id uguale all'ID della categoria, senza altri dettagli
-        /* $posts = Post::all(); */
-
-        //aggiungo le informazioni della categoria associata al post, 
-        //chiamando la funzione "category" del Model "Post.php" nelle parentesi quadre
-        
-        $posts = Post::with(["category"])->get();
-
-        $posts = Post::paginate(2);
-
-
-        //ritorno la risposta, in forma di json cos' da poterla usare all'interno del programma con axios
+        $posts = Post::with(["category", "tags"])->paginate(2);
         return response()->json(
             [
                 "results" => $posts,
-                /* "category" => $posts->category()->get(), */
                 "success" => true
             ]
         );
     }
 
-    //funzione in frontend per mostrare i dettagli di un singolo post
     public function show($slug){
 
         $post = Post::where('slug', '=', $slug)->with(['category', 'tags'])->first();

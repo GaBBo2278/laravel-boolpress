@@ -6,8 +6,9 @@ Vue.use(VueRouter);
 import Home from "./pages/Home";
 import About from "./pages/About.vue";
 import Contact from "./pages/Contact.vue";
-import Posts from "./pages/Posts.vue";
+import Blog from "./pages/Posts.vue";
 import SinglePost from "./pages/SinglePost.vue";
+import NotFound from "./pages/NotFound";
 
 
 
@@ -32,14 +33,19 @@ const router = new VueRouter({
             component: Contact
         },
         {
-            path: "/posts",
-            name: "posts",
-            component: Posts
+            path: "/blog",
+            name: "blog",
+            component: Blog
         },
         {
-            path: '/posts/:slug', 
+            path: '/blog/:slug',
             name: 'single-post',
             component: SinglePost
+        },
+        {
+            path: "/*",
+            name: "not-found",
+            component: NotFound
         },
     ]
 });

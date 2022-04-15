@@ -29,7 +29,6 @@
                         <td>{{substr($post->content, 0, 30)}}</td>
                         <td>{{$post->slug}}</td>
                         <td>{{isset($post->category) ? $post->category->name : "N.D"}}</td>
-
                         <td>@foreach ($post->tags as $tag){{$tag->name . " - "}} @endforeach</td>
 
                         <td>

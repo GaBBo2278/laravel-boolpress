@@ -1,13 +1,13 @@
 <template>
     <div>
-        <h1>I nostri contatti sono i seguenti</h1>
-       
+        <h1>Errore 404</h1>
+        <h2>Pagina non trovata</h2>
     </div>
 </template>
 
 <script>
     export default {
-        name: "Contact"
+        name: "NotFound"
     }
 </script>
 
